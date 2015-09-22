@@ -23,8 +23,6 @@ import com.egeniq.support.app.Fragment;
 
 import java.util.ArrayList;
 
-import butterknife.OnClick;
-
 /**
  * Follow Settings.
  */
@@ -53,12 +51,11 @@ public class FollowSettingsFragment extends Fragment {
 
     private OnClickListener _onClickListener;
 
-    public enum FollowButton {
-        GIGYA_LOGIN
-    }
-
-    public interface OnClickListener {
-        void clicked(FollowButton button);
+    /**
+     * Constructor
+     */
+    public FollowSettingsFragment() {
+        // empty
     }
 
     /**
@@ -66,13 +63,6 @@ public class FollowSettingsFragment extends Fragment {
      */
     public static FollowSettingsFragment newInstance() {
         return new FollowSettingsFragment();
-    }
-
-    /**
-     * Constructor
-     */
-    private FollowSettingsFragment() {
-        // empty
     }
 
     /**
@@ -177,7 +167,7 @@ public class FollowSettingsFragment extends Fragment {
         loginWithGigyaButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(_onClickListener != null) {
+                if (_onClickListener != null) {
                     _onClickListener.clicked(FollowButton.GIGYA_LOGIN);
                 }
             }
@@ -247,15 +237,6 @@ public class FollowSettingsFragment extends Fragment {
         _fetchEndpoints();
     }
 
-//    /**
-//     * RTLid login.
-//     */
-//    private void _showGigyaLogin() {
-//        Intent intent = new Intent(getActivity(), GigyaActivity.class);
-//        startActivity(intent);
-//        getActivity().overridePendingTransition(R.anim.slide_in_bottom, R.anim.hold);
-//    }
-
     public void setOnClickListener(OnClickListener onClickListener) {
         _onClickListener = onClickListener;
     }
@@ -281,6 +262,15 @@ public class FollowSettingsFragment extends Fragment {
         // forget the user in the follow model
         FollowModel.INSTANCE.unlinkUser();
     }
+
+//    /**
+//     * RTLid login.
+//     */
+//    private void _showGigyaLogin() {
+//        Intent intent = new Intent(getActivity(), GigyaActivity.class);
+//        startActivity(intent);
+//        getActivity().overridePendingTransition(R.anim.slide_in_bottom, R.anim.hold);
+//    }
 
     /**
      * Fetch subscriptions.
@@ -361,5 +351,13 @@ public class FollowSettingsFragment extends Fragment {
 //                Log.d(TAG, "No data available. Cannot open content item.");
 //            }
 //        }
+    }
+
+    public enum FollowButton {
+        GIGYA_LOGIN
+    }
+
+    public interface OnClickListener {
+        void clicked(FollowButton button);
     }
 }
