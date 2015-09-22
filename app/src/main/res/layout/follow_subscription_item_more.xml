@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:background="@android:color/white"
+              android:gravity="center_vertical"
+              android:minHeight="45dp"
+              android:orientation="vertical"
+              android:padding="6dp">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="12dp"
+        android:drawableLeft="@drawable/follow_subscription_more_arrow"
+        android:drawablePadding="8dp"
+        android:text="@string/follow_settings_subscription_more"
+        android:textStyle="bold"
+        android:textColor="@color/followTextMore"/>
+
+</LinearLayout>

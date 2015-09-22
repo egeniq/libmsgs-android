@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item android:drawable="@drawable/follow_popup_background_arrow_bottom" android:state_above_anchor="true"/>
+    <item android:drawable="@drawable/follow_popup_background_arrow_top"/>
+
+</selector>

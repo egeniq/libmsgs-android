@@ -1,0 +1,216 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            xmlns:tools="http://schemas.android.com/tools"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/followTabletMainBackground"
+            android:fillViewport="true">
+
+    <LinearLayout
+        android:layout_width="633dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:orientation="vertical">
+
+        <com.egeniq.widget.TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:ellipsize="end"
+            android:singleLine="true"
+            android:text="@string/follow_settings_title"
+            android:textColor="@color/tabletHeaderTitle"
+            android:textSize="26sp"
+            android:textStyle="bold"
+            app:font="EGRTL-Graphik-TT-SemiBold"/>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="8dp"
+            android:background="@color/tabletHeaderLine"/>
+
+        <ViewSwitcher
+            android:id="@+id/loginSwitcher"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:measureAllChildren="false">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <com.egeniq.widget.TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="12dp"
+                    android:text="@string/follow_settings_updates_title"
+                    android:textColor="@color/followTextDefault"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    app:font="EGRTL-Graphik-TT-SemiBold"/>
+
+                <nl.rtl.rtlz.widget.LinearListView
+                    android:id="@+id/listSubscriptions"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/follow_item_background"
+                    android:divider="@color/followListDivider"
+                    android:orientation="vertical"
+                    android:showDividers="middle"
+                    app:dividerThickness="1dp"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:text="@string/follow_settings_endpoints_intro"
+                    android:textColor="@color/followTextDefault"/>
+
+                <nl.rtl.rtlz.widget.LinearListView
+                    android:id="@+id/listEndpoints"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:background="@drawable/follow_item_background"
+                    android:divider="@color/followListDivider"
+                    android:orientation="vertical"
+                    android:showDividers="middle"
+                    app:dividerThickness="1dp"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@android:color/white"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="12dp"
+                    android:text="@string/follow_settings_intro"
+                    android:textColor="@color/followTextDefault"
+                    android:textSize="14sp"/>
+
+                <com.egeniq.widget.Button
+                    android:id="@+id/loginWithGigya"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="left"
+                    android:layout_marginBottom="12dp"
+                    android:text="@string/sign_up"
+                    android:textColor="@android:color/white"
+                    app:font="EGRTL-Graphik-TT-Bold"
+                    android:textSize="16sp"
+                    android:paddingTop="5dp"
+                    android:paddingBottom="5dp"
+                    android:paddingLeft="25dp"
+                    android:paddingRight="25dp"
+                    android:background="@color/phoneMenuItemBackgroundChecked"/>
+
+            </LinearLayout>
+        </ViewSwitcher>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="12dp"
+            android:layout_marginTop="32dp"
+            android:orientation="vertical">
+
+            <com.egeniq.widget.TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="12dp"
+                android:text="@string/follow_settings_alerts_title"
+                android:textColor="@color/followTextDefault"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                app:font="EGRTL-Graphik-TT-SemiBold"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="12dp"
+                android:text="@string/follow_settings_alerts_intro"
+                android:textColor="@color/followTextDefault"
+                android:textSize="14sp"/>
+
+            <nl.rtl.rtlz.widget.LinearListView
+                android:id="@+id/listAlertEndpoints"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/follow_item_background"
+                android:divider="@color/followListDivider"
+                android:orientation="vertical"
+                android:showDividers="middle"
+                app:dividerThickness="1dp"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/boxLoggedIn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="12dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/follow_settings_logged_in"
+                    android:textColor="@color/followTextDefault"
+                    android:textSize="14sp"/>
+
+                <TextView
+                    android:id="@+id/loggedInAs"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="8dp"
+                    android:text="@android:string/untitled"
+                    android:textColor="@color/followTextDefault"
+                    android:textSize="14sp"
+                    android:textStyle="bold"/>
+
+                <TextView
+                    android:id="@+id/logout"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="8dp"
+                    android:text="@string/follow_settings_logout"
+                    android:textColor="@color/followTextDefault"
+                    android:textSize="14sp"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="12dp"
+                android:orientation="horizontal">
+
+                <com.egeniq.widget.Button
+                    android:id="@+id/profile"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="12dp"
+                    android:background="@drawable/follow_button_background"
+                    android:minHeight="0dp"
+                    android:visibility="gone"
+                    android:text="@string/follow_settings_profile_button"
+                    android:textColor="@android:color/white"
+                    android:textSize="16sp"
+                    android:textStyle="bold"/>
+            </LinearLayout>
+        </LinearLayout>
+    </LinearLayout>
+
+</ScrollView>

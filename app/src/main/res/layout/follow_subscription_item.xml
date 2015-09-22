@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@android:color/white"
+                android:gravity="center_vertical"
+                android:minHeight="45dp"
+                android:padding="6dp">
+
+    <TextView
+        android:id="@+id/name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="12dp"
+        android:layout_marginRight="36dp"
+        android:drawablePadding="4dp"
+        android:drawableRight="@drawable/follow_item_arrow"
+        android:ellipsize="end"
+        android:singleLine="true"
+        android:text="@android:string/untitled"
+        android:textColor="@color/followTextDefault"
+        android:textStyle="bold"/>
+
+    <ImageButton
+        android:id="@+id/delete"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp"
+        android:paddingLeft="12dp"
+        android:paddingRight="8dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@null"
+        android:layout_alignParentRight="true"
+        android:src="@drawable/follow_subscription_delete"/>
+
+</RelativeLayout>

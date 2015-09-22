@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="loginFrame">#96969b</color>
+    <color name="loginDialogBackground">#cc333333</color>
+    <color name="loginErrorMessage">#fd1c14</color>
+    <color name="privacyButtonBlue">#2ca6d9</color>
+    <color name="privacyButtonBluePressed">#1c86b9</color>
+
+    <!-- Follow -->
+    <color name="followDropdownBackgroundDefault">#CFCFCF</color>
+    <color name="followDropdownBackgroundChecked">#3F3F3F</color>
+    <color name="followDropdownTextDefault">#404040</color>
+    <color name="followDropdownTextChecked">#FFFFFF</color>
+    <color name="followDropdownDivider">#A7A7A7</color>
+
+    <color name="followListDivider">#DFDFDF</color>
+    <color name="followTextButton">#FFFFFF</color>
+    <color name="followTextDefault">#404040</color>
+    <color name="followTextDisabled">#AAAAAA</color>
+    <color name="followTextMore">#E32626</color>
+
+    <color name="followTabletMainBackground">#FFFFFF</color>
+    <color name="followTabsBackgroundDefault">#EEEEEE</color>
+    <color name="followTabsBackgroundChecked">#3F3F3F</color>
+    <color name="followTabsBackgroundPressed">#101010</color>
+    <color name="followTabsDivider">#D3D3D3</color>
+    <color name="followTabsTextDefault">#808080</color>
+    <color name="followTabsTextChecked">#FFFFFF</color>
+
+    <color name="tabletHeaderBackground">#ffffff</color>
+    <color name="tabletHeaderTitle">#5db9e0</color>
+    <color name="tabletHeaderLine">#dadbdd</color>
+    <color name="phoneBaseBackground">#ffffff</color>
+    <color name="phoneMenuItemBackgroundDefault">#000000</color>
+    <color name="phoneMenuItemBackgroundChecked">#35a7d7</color>
+    <color name="phoneMenuItemBackgroundPressed">#35a7d7</color>
+
+
+</resources>
