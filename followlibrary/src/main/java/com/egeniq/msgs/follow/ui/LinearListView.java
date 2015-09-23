@@ -1,4 +1,4 @@
-package com.egeniq.follow_lib_android.ui;
+package com.egeniq.msgs.follow.ui;
 
 import android.content.Context;
 import android.content.res.TypedArray;
@@ -9,7 +9,7 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ListAdapter;
 
-import com.egeniq.follow_lib_android.R;
+import com.egeniq.msgs.follow.R;
 
 
 /**

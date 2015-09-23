@@ -1,4 +1,4 @@
-package com.egeniq.follow_lib_android.ui;
+package com.egeniq.msgs.follow.ui;
 
 import android.content.Context;
 import android.content.res.TypedArray;

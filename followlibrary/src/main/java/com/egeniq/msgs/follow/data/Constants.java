@@ -1,4 +1,4 @@
-package com.egeniq.follow_lib_android.data;
+package com.egeniq.msgs.follow.data;
 
 import java.text.SimpleDateFormat;
 

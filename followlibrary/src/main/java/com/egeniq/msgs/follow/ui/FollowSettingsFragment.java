@@ -1,4 +1,4 @@
-package com.egeniq.follow_lib_android.ui;
+package com.egeniq.msgs.follow.ui;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -14,11 +14,11 @@ import android.webkit.CookieSyncManager;
 import android.widget.TextView;
 import android.widget.ViewSwitcher;
 
-import com.egeniq.follow_lib_android.R;
-import com.egeniq.follow_lib_android.data.Constants;
-import com.egeniq.follow_lib_android.data.entity.FollowEndpoint;
-import com.egeniq.follow_lib_android.data.entity.FollowSubscription;
-import com.egeniq.follow_lib_android.data.models.FollowModel;
+import com.egeniq.msgs.follow.R;
+import com.egeniq.msgs.follow.data.Constants;
+import com.egeniq.msgs.follow.data.entity.FollowEndpoint;
+import com.egeniq.msgs.follow.data.entity.FollowSubscription;
+import com.egeniq.msgs.follow.data.models.FollowModel;
 import com.egeniq.support.app.Fragment;
 
 import java.util.ArrayList;
@@ -259,7 +259,7 @@ public class FollowSettingsFragment extends Fragment {
             CookieSyncManager.getInstance().sync();
         }
 
-        // forget the user in the follow model
+        // forget the user in the msgs.com.egeniq.msgs.follow model
         FollowModel.INSTANCE.unlinkUser();
     }
 

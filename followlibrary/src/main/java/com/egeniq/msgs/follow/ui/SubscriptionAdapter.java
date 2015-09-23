@@ -1,4 +1,4 @@
-package com.egeniq.follow_lib_android.ui;
+package com.egeniq.msgs.follow.ui;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -8,8 +8,8 @@ import android.widget.BaseAdapter;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
-import com.egeniq.follow_lib_android.R;
-import com.egeniq.follow_lib_android.data.entity.FollowSubscription;
+import com.egeniq.msgs.follow.R;
+import com.egeniq.msgs.follow.data.entity.FollowSubscription;
 
 import java.util.ArrayList;
 

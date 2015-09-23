@@ -1,4 +1,4 @@
-package com.egeniq.follow_lib_android.data.models;
+package com.egeniq.msgs.follow.data.models;
 
 import android.content.Context;
 import android.content.Intent;
@@ -8,10 +8,10 @@ import android.os.AsyncTask;
 import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 
-import com.egeniq.follow_lib_android.Utils;
-import com.egeniq.follow_lib_android.data.Constants;
-import com.egeniq.follow_lib_android.data.entity.FollowEndpoint;
-import com.egeniq.follow_lib_android.data.entity.FollowSubscription;
+import com.egeniq.msgs.follow.Utils;
+import com.egeniq.msgs.follow.data.Constants;
+import com.egeniq.msgs.follow.data.entity.FollowEndpoint;
+import com.egeniq.msgs.follow.data.entity.FollowSubscription;
 import com.egeniq.utils.api.APIException;
 
 import org.json.JSONException;
@@ -554,7 +554,7 @@ public enum FollowModel {
     }
 
     /**
-     * Update endpoint receives (follow) updates.
+     * Update endpoint receives (msgs.com.egeniq.msgs.follow) updates.
      *
      * @param token
      * @param receivesBreakingNews

@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">GigyaLibrary</string>
+    <string name="app_name">FollowLibrary</string>
 
     <string name="login_with">LOG HIER IN MET</string>
     <string name="email_capital">E-mailadres</string>

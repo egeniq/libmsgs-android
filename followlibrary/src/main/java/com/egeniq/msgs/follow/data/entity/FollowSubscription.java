@@ -1,4 +1,4 @@
-package com.egeniq.follow_lib_android.data.entity;
+package com.egeniq.msgs.follow.data.entity;
 
 import io.msgs.v2.entity.Subscription;
 

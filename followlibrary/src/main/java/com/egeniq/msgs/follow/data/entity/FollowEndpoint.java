@@ -1,4 +1,4 @@
-package com.egeniq.follow_lib_android.data.entity;
+package com.egeniq.msgs.follow.data.entity;
 
 import io.msgs.v2.entity.Endpoint;
 
@@ -54,18 +54,18 @@ public class FollowEndpoint {
     }
 
     /**
-     * Receives follow updates?
+     * Receives msgs.com.egeniq.msgs.follow updates?
      *
-     * @return Receive follow updates?
+     * @return Receive msgs.com.egeniq.msgs.follow updates?
      */
     public boolean getReceivesUpdates() {
         return _endpoint.getUserSubscriptionsActive();
     }
 
     /**
-     * Set wheter the endpoint receives follow updates.
+     * Set wheter the endpoint receives msgs.com.egeniq.msgs.follow updates.
      *
-     * @param receive Receive follow updates
+     * @param receive Receive msgs.com.egeniq.msgs.follow updates
      */
     public void setReceivesUpdates(boolean receive) {
         _endpoint.setUserSubscriptionsActive(receive);

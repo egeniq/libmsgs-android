@@ -1,4 +1,4 @@
-package com.egeniq.follow_lib_android;
+package com.egeniq.msgs.follow;
 
 import android.app.Application;
 import android.test.ApplicationTestCase;
