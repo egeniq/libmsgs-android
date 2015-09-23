@@ -1,0 +1,195 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:rtl="http://schemas.android.com/apk/res-auto"
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            xmlns:tools="http://schemas.android.com/tools"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/phoneBaseBackground"
+            android:fillViewport="true">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingBottom="12dp"
+        android:paddingTop="12dp">
+
+        <ViewSwitcher
+            android:id="@+id/loginSwitcher"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:measureAllChildren="false">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="12dp"
+                android:layout_marginRight="12dp"
+                android:layout_marginTop="12dp"
+                android:background="@android:color/white"
+                android:orientation="vertical"
+                android:padding="12dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="12dp"
+                    android:text="@string/follow_settings_updates_title"
+                    android:textColor="@color/followTextDefault"
+                    android:textSize="16sp"
+                    android:textStyle="bold"/>
+
+                <!-- Using this to have an adapter based linearlayout -->
+
+                <nl.rtl.rtlz.widget.LinearListView
+                    android:id="@+id/listSubscriptions"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="12dp"
+                    android:background="@drawable/follow_item_background"
+                    android:divider="@color/followListDivider"
+                    android:orientation="vertical"
+                    android:showDividers="middle"
+                    rtl:dividerThickness="1dp"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="12dp"
+                    android:text="@string/follow_settings_endpoints_intro"
+                    android:textColor="@color/followTextDefault"/>
+
+                <nl.rtl.rtlz.widget.LinearListView
+                    android:id="@+id/listEndpoints"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/follow_item_background"
+                    android:divider="@color/followListDivider"
+                    android:orientation="vertical"
+                    android:showDividers="middle"
+                    rtl:dividerThickness="1dp"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="12dp"
+                android:layout_marginRight="12dp"
+                android:layout_marginTop="12dp"
+                android:background="@android:color/white"
+                android:orientation="vertical"
+                android:padding="12dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="12dp"
+                    android:text="@string/follow_settings_intro"
+                    android:textColor="@color/followTextDefault"/>
+
+                <com.egeniq.widget.Button
+                    android:id="@+id/loginWithGigya"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="left"
+                    android:layout_marginBottom="12dp"
+                    android:text="@string/sign_up"
+                    android:textColor="@android:color/white"
+                    app:font="EGRTL-Graphik-TT-Bold"
+                    android:textSize="16sp"
+                    android:paddingTop="5dp"
+                    android:paddingBottom="5dp"
+                    android:paddingLeft="25dp"
+                    android:paddingRight="25dp"
+                    android:background="@color/phoneMenuItemBackgroundChecked"/>
+
+            </LinearLayout>
+        </ViewSwitcher>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="12dp"
+            android:layout_marginRight="12dp"
+            android:layout_marginTop="12dp"
+            android:background="@android:color/white"
+            android:orientation="vertical"
+            android:padding="12dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="12dp"
+                android:text="@string/follow_settings_alerts_title"
+                android:textColor="@color/followTextDefault"
+                android:textSize="16sp"
+                android:textStyle="bold"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="12dp"
+                android:text="@string/follow_settings_alerts_intro"
+                android:textColor="@color/followTextDefault"/>
+
+            <nl.rtl.rtlz.widget.LinearListView
+                android:id="@+id/listAlertEndpoints"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/follow_item_background"
+                android:divider="@color/followListDivider"
+                android:orientation="vertical"
+                android:showDividers="middle"
+                rtl:dividerThickness="1dp"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/boxLoggedIn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="12dp"
+            android:layout_marginRight="12dp"
+            android:layout_marginTop="12dp"
+            android:background="@android:color/white"
+            android:orientation="vertical"
+            android:padding="12dp"
+            android:visibility="visible">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/follow_settings_logged_in"
+                android:textColor="@color/followTextDefault"/>
+
+            <TextView
+                android:id="@+id/loggedInAs"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@android:string/untitled"
+                android:textColor="@color/followTextDefault"
+                android:textStyle="bold"/>
+
+            <TextView
+                android:id="@+id/logout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/follow_settings_logout"
+                android:textColor="@color/followTextDefault"/>
+
+            <Button
+                android:id="@+id/profile"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:background="@drawable/follow_button_background"
+                android:minHeight="0dp"
+                android:visibility="gone"
+                android:text="@string/follow_settings_profile_button"
+                android:textColor="@android:color/white"
+                android:textSize="16sp"
+                android:textStyle="bold"/>
+        </LinearLayout>
+    </LinearLayout>
+
+</ScrollView>

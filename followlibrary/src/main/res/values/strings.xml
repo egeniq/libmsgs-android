@@ -1,0 +1,87 @@
+<resources>
+    <string name="app_name">FollowLibrary</string>
+
+    <string name="login_with">LOG HIER IN MET</string>
+    <string name="email_capital">E-mailadres</string>
+    <string name="email">e-mailadres</string>
+    <string name="first_name">voornaam</string>
+    <string name="last_name">achternaam</string>
+    <string name="when_you_was_born">Wat is je geboortejaar</string>
+    <string name="password_capital">Wachtwoord</string>
+    <string name="password">wachtwoord</string>
+    <string name="repeat_password">herhaal je wachtwoord</string>
+    <string name="login">INLOGGEN</string>
+    <string name="agree_and_register">AKKOORD &amp; REGISTREER</string>
+    <string name="send">VERSTUREN</string>
+    <string name="login_with_email_and_password">Of log in met je e-mail en wachtwoord:</string>
+    <string name="forgot_password">Wachtwoord vergeten?</string>
+    <string name="stay_loggedin">Houd mij ingelogd op dit apparaat</string>
+    <string name="do_you_have_account">Heb je nog geen account? Maak hier je account aan</string>
+    <string name="other_rtl_services">Met dit account kun je ook inloggen bij de volgende RTL-diensten</string>
+    <string name="make_account">Maak hier je account aan</string>
+    <string name="with_this_account_you_can_login">Met dit account kun je ook inloggen bij de volgende RTL merken:</string>
+    <string name="enter_the_email_address">Vul je e-mailadres in en volg de instructies in de e-mail die je van ons ontvangt.</string>
+    <string name="we_sent_an_email_again">We hebben nogmaals  een e-mail gestuurd naar %s.\nKlik op de link in de mail om je account te activeren.</string>
+    <!--<string name="we_sent_an_email_to">We hebben een e-mail gestuurd naar %s.</string>-->
+    <string name="change_password">WACHTWOORD WIJZIGEN</string>
+    <string name="old_password">Oud wachtwoord</string>
+    <string name="new_password">NIEUW WACHTWOORD</string>
+    <string name="new_password_again">Nieuw wachtwoord nogmaals</string>
+    <string name="make_your_rtl_account">MAAK HIER JE RTL ACCOUNT AAN</string>
+    <string name="look_in_email">KIJK IN JE MAIL</string>
+    <string name="hello_look_in_email">HOI %s, KIJK IN JE MAIL</string>
+    <string name="bind_account_message">Koppel je account met Facebook, Google of LinkedIn, of maak hieronder een account aan.</string>
+    <string name="do_you_have_an_account">HEB JE AL EEN ACCOUNT?</string>
+    <string name="previously_used_account_detected">We zien dat je %s eerder hebt gebruikt voor een RTL account.</string>
+    <string name="type_password_here">Typ het wachtwoord van je RTL account</string>
+    <string name="choose_a_social_profile_to_sign_up">Kies een social profiel om je aan te melden</string>
+    <string name="login_failed_try_again_later">Inloggen is momenteel niet mogelijk, probeer het later opnieuw.</string>
+    <string name="or_register_with_email">of regisreer via e-mail:</string>
+    <string name="bind_account">ACCOUNT KOPPELEN</string>
+    <string name="you_are_almost_there">DE REGISTRATIE IS BIJNA COMPLEET</string>
+    <string name="ready">KLAAR</string>
+    <string name="account_created">Je account bij RTL is succesvol aangemaakt. Wil je onze nieuwsbrief ontvangen, geef dat dan hieronder aan.</string>
+    <string name="we_sent_an_email">We hebben een e-mail gestuurd naar %s.\n\nKlik op de link in de e-mail om je account te activeren.</string>
+    <string name="sign_up">AANMELDEN</string>
+    <string name="registration_privacy_text">PRIVACY EN ALGEMENE VOORWAARDEN\n\nDoor in te loggen stem je in met het vernieuwde RTL Privacy en Cookiestatement en geef je RTL toestemming om met behulp van cookies of andere technieken jouw persoonsgegevens te verzamelen. We verzamelen gegevens over jouw gebruik van alle websites en apps van RTL. Deze informatie, zoals de video’s die je bekijkt of je locatie, wordt onder andere gebruikt voor het optimaliseren van onze diensten en het aanbieden van advertenties en aanbiedingen zo relevant mogelijk voor je te maken op basis van bijvoorbeeld je locatie of gebruikte apparaat. Klik hier voor de volledige tekst: http://terms.rtl.nl/text/</string>
+    <!--validation messages-->
+    <string name="password_is_required">Wachtwoord is verplicht</string>
+    <string name="enter_valid_email">Voer een geldig e-mailadres in</string>
+    <string name="invalid_fieldname">Het veld fieldname is ongeldig</string>
+    <string name="enter_first_name">Voer je voornaam in</string>
+    <string name="enter_last_name">Voer je achternaam in</string>
+    <string name="email_is_invalid">E-mailadres is ongeldig</string>
+    <string name="knock_your_data">KLOPPEN JE GEGEVENS?</string>
+
+    <!-- Follow Settings -->
+    <string-array name="follow_settings_filter">
+        <item>Alles</item>
+        <item>Stories</item>
+        <item>Dossiers</item>
+        <item>Columnisten</item>
+    </string-array>
+    <string name="follow_settings_button_title">Mijn\nRTLZ</string>
+    <string name="follow_settings_title">Mijn RTLZ</string>
+    <string name="follow_settings_intro">Met ‘Mijn RTLZ’ volg je het nieuws dat jou interesseert. Meld je eenmalig aan via Gigya ID en mis niets. Je kan kiezen of je de updates in je mail krijgt en/of via pushberichten.</string>
+    <string name="follow_settings_endpoints_intro">Ik wil updates ontvangen, via:</string>
+    <string name="follow_settings_updates_title">Nieuws dat ik volg:</string>
+    <string name="follow_settings_alerts_title">Breaking nieuws</string>
+    <string name="follow_settings_alerts_intro">Onze redactie verstuurt ook berichten bij breaking nieuws. Ja die wil ik graag ontvangen.</string>
+    <string name="follow_settings_logged_in">Ingelogd als:</string>
+    <string name="follow_settings_logout">(<u>uitloggen</u>)</string>
+    <string name="follow_settings_profile_button">Persoonlijke gegevens wijzigen</string>
+    <string name="follow_settings_logout_button">Uitloggen</string>
+    <string name="follow_settings_subscription_more">Toon meer</string>
+    <string name="follow_settings_subscription_empty">Je volgt nog geen verhalen</string>
+    <string name="follow_switch_on">Aan</string>
+    <string name="follow_switch_off">Uit</string>
+    <string name="follow_follow">Volg</string>
+    <string name="follow_unfollow">Ontvolg</string>
+
+    <string name="follow_popup_intro_story">Wil jij dit nieuwsverhaal volgen? Ga dan naar ‘Mijn RTLZ’ en meld je aan.</string>
+    <string name="follow_popup_intro_column">Wil jij deze columnist volgen? Ga dan naar ‘Mijn RTLZ’ en meld je aan.</string>
+    <string name="follow_popup_show_settings">Mijn RTLZ</string>
+    <string name="facebook_app_id"></string>
+    <string name="param_first_visit">first_visit_rtlnieuws</string>
+
+</resources>

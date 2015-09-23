@@ -1,0 +1,28 @@
+<resources>
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="@android:style/Theme.NoTitleBar">
+        <!-- Customize your theme here. -->
+    </style>
+
+    <style name="loginEditText" parent="@android:style/Widget.EditText">
+        <item name="android:background">@drawable/login_frame</item>
+        <item name="android:padding">10dp</item>
+        <item name="android:singleLine">true</item>
+        <item name="android:textSize">@dimen/login_edit_text_size</item>
+        <item name="android:textColorHint">@color/loginFrame</item>
+        <item name="android:textColor">@android:color/white</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">48dp</item>
+    </style>
+
+    <style name="loginErrorText" parent="@android:style/Widget.TextView">
+        <item name="android:visibility">gone</item>
+        <item name="android:textSize">@dimen/login_edit_text_size</item>
+        <item name="android:textColor">@color/loginErrorMessage</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+    </style>
+
+
+</resources>
