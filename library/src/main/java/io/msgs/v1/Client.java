@@ -5,25 +5,23 @@ import android.content.SharedPreferences;
 import android.net.Uri;
 import android.util.Log;
 
-import com.egeniq.BuildConfig;
-import com.egeniq.utils.api.APIClient;
-import com.egeniq.utils.api.APIException;
-import com.egeniq.utils.api.APIUtils;
-
 import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
+import java.util.HashMap;
 import java.util.Locale;
+import java.util.Map;
 import java.util.TimeZone;
 
-import ch.boye.httpclientandroidlib.HttpEntity;
-import ch.boye.httpclientandroidlib.NameValuePair;
-import ch.boye.httpclientandroidlib.client.entity.UrlEncodedFormEntity;
-import ch.boye.httpclientandroidlib.message.BasicNameValuePair;
+import io.msgs.BuildConfig;
+import io.msgs.common.APIClient;
+import io.msgs.common.APIException;
+import io.msgs.common.APIUtils;
+import io.msgs.common.entity.HttpEntity;
+import io.msgs.common.entity.UrlEncodedFormEntity;
 import io.msgs.v1.Subscription.Time;
 
 /**
@@ -42,7 +40,7 @@ public class Client {
     private final static String LAST_REGISTER_CHANNEL_ID_KEY = "lastRegisterChannelId";
     private final static String UPDATED_AT_KEY = "updatedAt";
 
-    private final static int TOKEN_TIMEOUT = 3;// * 24 * 60 * 60; // 3 days
+    private final static int TOKEN_TIMEOUT_IN_DAYS = 3; // * 24 * 60 * 60; // 3 days
     private final static String DEVICE_FAMILY = "gcm";
 
     private final static SimpleDateFormat DATE_FORMAT;
@@ -158,7 +156,7 @@ public class Client {
                 // @formatter:off
                 if (((_getLastRegisterChannelId() == null && channelId == null) ||
                      (_getLastRegisterChannelId() != null && _getLastRegisterChannelId().equals(channelId))) &&
-                    (_getUpdatedAt() != null && new Date().getTime() - _getUpdatedAt().getTime() < TOKEN_TIMEOUT)) {
+                    (_getUpdatedAt() != null && new Date().getTime() - _getUpdatedAt().getTime() < TOKEN_TIMEOUT_IN_DAYS)) {
                     if (DEBUG) {
                         Log.d(TAG, "Registration request cancelled, all data seems up-to-date and recent enough");
                     }
@@ -168,13 +166,13 @@ public class Client {
                 // @formatter:on
             }
 
-            List<NameValuePair> params = new ArrayList<NameValuePair>();
-            params.add(new BasicNameValuePair("appId", Uri.encode(_appId)));
-            params.add(new BasicNameValuePair("deviceFamily", DEVICE_FAMILY));
-            params.add(new BasicNameValuePair("deviceToken", deviceToken));
+            Map<String, String> params = new HashMap<>();
+            params.put("appId", Uri.encode(_appId));
+            params.put("deviceFamily", DEVICE_FAMILY);
+            params.put("deviceToken", deviceToken);
 
             if (channelId != null) {
-                params.add(new BasicNameValuePair("channelId", channelId));
+                params.put("channelId", channelId);
             }
 
             String path = "subscribers";
@@ -185,7 +183,7 @@ public class Client {
                 }
 
                 path = "subscribers/;update";
-                params.add(new BasicNameValuePair("notificationToken", notificationToken));
+                params.put("notificationToken", notificationToken);
             }
 
             HttpEntity entity = new UrlEncodedFormEntity(params);
@@ -235,7 +233,7 @@ public class Client {
         try {
             String notificationToken = getNotificationToken();
             if (notificationToken == null) {
-                throw new APIException("not_registered", "Device is not registered");
+                throw new APIException("Device is not registered");
             }
 
             JSONArray rawSubscriptions = _getAPIClient().getArray("subscriptions/" + _appId + "/" + notificationToken);
@@ -321,32 +319,32 @@ public class Client {
         try {
             String notificationToken = getNotificationToken();
             if (notificationToken == null) {
-                throw new APIException("not_registered", "Device is not registered");
+                throw new APIException("Device is not registered");
             }
 
             if (DEBUG) {
                 Log.d(TAG, "Add subscription for channel " + subscription.getChannelId());
             }
 
-            List<NameValuePair> params = new ArrayList<NameValuePair>();
-            params.add(new BasicNameValuePair("appId", _appId));
-            params.add(new BasicNameValuePair("notificationToken", notificationToken));
-            params.add(new BasicNameValuePair("channelId", subscription.getChannelId()));
+            Map<String, String> params = new HashMap<>();
+            params.put("appId", _appId);
+            params.put("notificationToken", notificationToken);
+            params.put("channelId", subscription.getChannelId());
 
             if (subscription.getStartDate() != null) {
-                params.add(new BasicNameValuePair("dateStart", DATE_FORMAT.format(subscription.getStartDate())));
+                params.put("dateStart", DATE_FORMAT.format(subscription.getStartDate()));
             }
 
             if (subscription.getEndDate() != null) {
-                params.add(new BasicNameValuePair("dateEnd", DATE_FORMAT.format(subscription.getEndDate())));
+                params.put("dateEnd", DATE_FORMAT.format(subscription.getEndDate()));
             }
 
             if (subscription.getStartTime() != null) {
-                params.add(new BasicNameValuePair("timeStart", String.format("%02d:%02d", subscription.getStartTime().getHours(), subscription.getStartTime().getMinutes())));
+                params.put("timeStart", String.format("%02d:%02d", subscription.getStartTime().getHours(), subscription.getStartTime().getMinutes()));
             }
 
             if (subscription.getEndTime() != null) {
-                params.add(new BasicNameValuePair("timeEnd", String.format("%02d:%02d", subscription.getEndTime().getHours(), subscription.getEndTime().getMinutes())));
+                params.put("timeEnd", String.format("%02d:%02d", subscription.getEndTime().getHours(), subscription.getEndTime().getMinutes()));
             }
 
             if (subscription.getWeekdays() > 0) {
@@ -373,7 +371,7 @@ public class Client {
                     dowSet += (dowSet.length() > 0 ? "," : "") + "7";
                 }
 
-                params.add(new BasicNameValuePair("dowSet", dowSet));
+                params.put("dowSet", dowSet);
             }
 
             HttpEntity entity = new UrlEncodedFormEntity(params);
@@ -405,14 +403,14 @@ public class Client {
     public void unsubscribe(String channelId) throws APIException {
         String notificationToken = getNotificationToken();
         if (notificationToken == null) {
-            throw new APIException("not_registered", "Device is not registered");
+            throw new APIException("Device is not registered");
         }
 
         try {
-            List<NameValuePair> params = new ArrayList<NameValuePair>();
-            params.add(new BasicNameValuePair("appId", _appId));
-            params.add(new BasicNameValuePair("notificationToken", notificationToken));
-            params.add(new BasicNameValuePair("channelId", channelId));
+            Map<String, String> params = new HashMap<>(3);
+            params.put("appId", _appId);
+            params.put("notificationToken", notificationToken);
+            params.put("channelId", channelId);
 
             HttpEntity entity = new UrlEncodedFormEntity(params);
             _getAPIClient().post("subscriptions/;delete", entity);
@@ -437,14 +435,14 @@ public class Client {
     public void unsubscribe(int subscriptionId) throws APIException {
         String notificationToken = getNotificationToken();
         if (notificationToken == null) {
-            throw new APIException("not_registered", "Device is not registered");
+            throw new APIException("Device is not registered");
         }
 
         try {
-            List<NameValuePair> params = new ArrayList<NameValuePair>();
-            params.add(new BasicNameValuePair("appId", _appId));
-            params.add(new BasicNameValuePair("notificationToken", notificationToken));
-            params.add(new BasicNameValuePair("subscriptionId", String.valueOf(subscriptionId)));
+            Map<String, String> params = new HashMap<>(3);
+            params.put("appId", _appId);
+            params.put("notificationToken", notificationToken);
+            params.put("subscriptionId", String.valueOf(subscriptionId));
 
             HttpEntity entity = new UrlEncodedFormEntity(params);
             _getAPIClient().post("subscriptions/;delete", entity);

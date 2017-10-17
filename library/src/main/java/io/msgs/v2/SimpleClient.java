@@ -3,11 +3,10 @@ package io.msgs.v2;
 import android.content.Context;
 import android.content.SharedPreferences.Editor;
 
-import com.egeniq.utils.api.APIException;
-
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import io.msgs.common.APIException;
 import io.msgs.v2.entity.Endpoint;
 import io.msgs.v2.utils.Utils;
 

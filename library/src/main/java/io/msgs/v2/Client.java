@@ -2,29 +2,23 @@ package io.msgs.v2;
 
 import android.util.Log;
 
-import com.egeniq.BuildConfig;
-import com.egeniq.utils.api.APIException;
-
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.UnsupportedEncodingException;
-import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
-import java.util.List;
+import java.util.Map;
 
-import ch.boye.httpclientandroidlib.Header;
-import ch.boye.httpclientandroidlib.NameValuePair;
-import ch.boye.httpclientandroidlib.client.entity.UrlEncodedFormEntity;
-import ch.boye.httpclientandroidlib.client.utils.URLEncodedUtils;
-import ch.boye.httpclientandroidlib.message.BasicHeader;
-import ch.boye.httpclientandroidlib.message.BasicNameValuePair;
+import io.msgs.BuildConfig;
+import io.msgs.common.APIException;
+import io.msgs.common.APIUtils;
+import io.msgs.common.entity.UrlEncodedFormEntity;
 import io.msgs.v2.entity.Endpoint;
 import io.msgs.v2.entity.User;
 
 /**
  * Msgs client.
- *
+ * <p>
  * All methods are executed synchronously. You are responsible for <br>
  * wrapping the calls in an AsyncTask or something similar.
  */
@@ -37,7 +31,7 @@ public class Client {
 
     private APIClient _apiClient;
 
-    private static class APIClient extends com.egeniq.utils.api.APIClient {
+    private static class APIClient extends io.msgs.common.APIClient {
         public APIClient(String baseURL) {
             super(baseURL);
             _setLoggingEnabled(DEBUG);
@@ -45,12 +39,12 @@ public class Client {
         }
     }
 
+
     /**
      * Constructor.
      *
-     * @param context
-     * @param baseURL
-     * @param apiKey
+     * @param baseURL The API base URL.
+     * @param apiKey  The API key to register with.
      */
     public Client(String baseURL, String apiKey) {
         _baseURL = baseURL;
@@ -73,9 +67,9 @@ public class Client {
     /**
      * Register endpoint.
      *
-     * @param properties
-     * @return Endpoint.
-     * @throws APIException
+     * @param data Additional info to send.
+     * @return Endpoint The registered endpoint
+     * @throws APIException Thrown if there was an error while registering.
      */
     public Endpoint registerEndpoint(JSONObject data) throws APIException {
         try {
@@ -97,9 +91,9 @@ public class Client {
     /**
      * Register user.
      *
-     * @param externalUserId
-     * @return User.
-     * @throws APIException
+     * @param data Additional data to send about the user.
+     * @return User The registered user object.
+     * @throws APIException Thrown if there was an error while registering the user.
      */
     public User registerUser(JSONObject data) throws APIException {
         try {
@@ -139,18 +133,20 @@ public class Client {
     /**
      * Get Api Header
      */
-    private Header _getApiHeader() {
-        return new BasicHeader("X-MsgsIo-APIKey", _apiKey);
+    private Map<String, String> _getApiHeader() {
+        Map<String, String> headers = new HashMap<>();
+        headers.put("X-MsgsIo-APIKey", _apiKey);
+        return headers;
     }
 
     /**
      * Convert JSON object to name value pairs.
      *
-     * @param properties
+     * @param data Extra parameters to send.
      * @return Name value pairs.
      */
-    protected List<NameValuePair> _getParams(JSONObject data) {
-        List<NameValuePair> params = new ArrayList<NameValuePair>();
+    protected Map<String, String> _getParams(JSONObject data) {
+        Map<String, String> params = new HashMap<>();
 
         Iterator<?> iter = data.keys();
         while (iter.hasNext()) {
@@ -159,10 +155,10 @@ public class Client {
                 Object value = data.get(key);
                 if (value != null) {
                     if (value instanceof Boolean) {
-                        value = ((Boolean)value).booleanValue() ? 1 : 0;
+                        value = (Boolean)value ? 1 : 0;
                     }
 
-                    params.add(new BasicNameValuePair(key, String.valueOf(value)));
+                    params.put(key, String.valueOf(value));
                 }
             } catch (JSONException e) {
             }
@@ -174,25 +170,21 @@ public class Client {
     /**
      * Perform a GET request with the ApiKey header.
      */
-    protected JSONObject _get(String path, List<NameValuePair> params) throws APIException {
-        return _getAPIClient().get(path + (params != null && !params.isEmpty() ? "?" + URLEncodedUtils.format(params, "utf-8") : ""), true, new Header[] {_getApiHeader()});
+    protected JSONObject _get(String path, Map<String, String> params) throws APIException {
+        return _getAPIClient().get(path + (params != null && !params.isEmpty() ? "?" + APIUtils.createQueryString(params) : ""), _getApiHeader());
     }
 
     /**
      * Perform a POST request with the ApiKey header.
      */
-    protected JSONObject _post(String path, List<NameValuePair> params) throws APIException {
-        try {
-            return _getAPIClient().post(path, params == null ? null : new UrlEncodedFormEntity(params, "utf-8"), true, new Header[] {_getApiHeader()});
-        } catch (UnsupportedEncodingException e) {
-            return null;
-        }
+    protected JSONObject _post(String path, Map<String, String> params) throws APIException {
+        return _getAPIClient().post(path, params == null ? null : new UrlEncodedFormEntity(params), _getApiHeader());
     }
 
     /**
      * Perform a DELETE request with the ApiKey header.
      */
     protected JSONObject _delete(String path) throws APIException {
-        return _getAPIClient().delete(path, true, new Header[] {_getApiHeader()});
+        return _getAPIClient().delete(path, _getApiHeader());
     }
 }

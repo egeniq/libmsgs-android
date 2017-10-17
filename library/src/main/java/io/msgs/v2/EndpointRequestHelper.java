@@ -2,11 +2,10 @@ package io.msgs.v2;
 
 import android.util.Log;
 
-import com.egeniq.BuildConfig;
-import com.egeniq.utils.api.APIException;
-
 import org.json.JSONObject;
 
+import io.msgs.BuildConfig;
+import io.msgs.common.APIException;
 import io.msgs.v2.entity.Endpoint;
 
 /**

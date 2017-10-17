@@ -2,16 +2,13 @@ package io.msgs.v2;
 
 import android.util.Log;
 
-import com.egeniq.BuildConfig;
-import com.egeniq.utils.api.APIException;
-
 import org.json.JSONObject;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
-import ch.boye.httpclientandroidlib.NameValuePair;
-import ch.boye.httpclientandroidlib.message.BasicNameValuePair;
+import io.msgs.BuildConfig;
+import io.msgs.common.APIException;
 import io.msgs.v2.entity.Endpoint;
 import io.msgs.v2.entity.ItemList;
 
@@ -31,12 +28,10 @@ public class UserRequestHelper extends RequestHelper {
 
     /**
      * Register endpoint.
-     * 
-     * @param properties
-     * 
+     *
+     * @param data Extra info to send with registration.
      * @return Endpoint.
-     * 
-     * @throws APIException
+     * @throws APIException Thrown if there was an error while registering.
      */
     public Endpoint registerEndpoint(JSONObject data) throws APIException {
         try {
@@ -57,24 +52,24 @@ public class UserRequestHelper extends RequestHelper {
 
     /**
      * Get Endpoints.
-     * 
-     * @param sort Optional. Pass <b>null</b> to use default value.
-     * @param limit Optional. Pass <b>null</b> to use default value.
+     *
+     * @param limit  Optional. Pass <b>null</b> to use default value.
+     * @param offset Optional. Pass <b>null</b> to use default value.
      */
     public ItemList<Endpoint> fetchEndpoints(Integer limit, Integer offset) throws APIException {
         try {
-            List<NameValuePair> params = new ArrayList<NameValuePair>();
+            Map<String, String> params = new HashMap<>(3);
 
             if (limit != null) {
-                params.add(new BasicNameValuePair("limit", String.valueOf(limit)));
+                params.put("limit", String.valueOf(limit));
             }
 
             if (offset != null) {
-                params.add(new BasicNameValuePair("offset", String.valueOf(offset)));
+                params.put("offset", String.valueOf(offset));
             }
 
             JSONObject object = _get("endpoints", params);
-            return new ItemList<Endpoint>(Endpoint.class, object);
+            return new ItemList<>(Endpoint.class, object);
         } catch (Exception e) {
             if (DEBUG) {
                 Log.e(TAG, "Error getting endpoints for user", e);
@@ -90,7 +85,7 @@ public class UserRequestHelper extends RequestHelper {
 
     /**
      * Get endpoint helper.
-     * 
+     *
      * @param endpointToken
      */
     public EndpointRequestHelper forEndpoint(String endpointToken) {

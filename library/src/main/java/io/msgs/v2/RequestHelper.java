@@ -3,17 +3,15 @@ package io.msgs.v2;
 import android.text.TextUtils;
 import android.util.Log;
 
-import com.egeniq.BuildConfig;
-import com.egeniq.utils.api.APIException;
 
 import org.json.JSONObject;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Set;
 
-import ch.boye.httpclientandroidlib.NameValuePair;
-import ch.boye.httpclientandroidlib.message.BasicNameValuePair;
+import io.msgs.BuildConfig;
+import io.msgs.common.APIException;
 import io.msgs.v2.entity.ItemList;
 import io.msgs.v2.entity.Subscription;
 
@@ -64,7 +62,7 @@ public abstract class RequestHelper {
     /**
      * Constructor.
      * 
-     * @param client
+     * @param parent
      * @param basePath
      */
     public RequestHelper(RequestHelper parent, String basePath) {
@@ -132,7 +130,7 @@ public abstract class RequestHelper {
     /**
      * Fetch subscriptions.
      * 
-     * @param channelCode Array of channel codes.
+     * @param channelCodes Array of channel codes.
      * @param tags        Array of tags.
      * @param sort        Optional. Pass <b>null</b> to use default value.
      * @param limit       Optional. Pass <b>null</b> to use default value.
@@ -140,26 +138,26 @@ public abstract class RequestHelper {
      */
     protected ItemList<Subscription> _fetchSubscriptions(Set<String> channelCodes, Set<String> tags, Sort sort, Integer limit, Integer offset) throws APIException {
         try {
-            List<NameValuePair> params = new ArrayList<NameValuePair>();
+            Map<String, String> params = new HashMap<>();
 
             if (channelCodes != null) {
-                params.add(new BasicNameValuePair("channelCodes", TextUtils.join(",", channelCodes)));
+                params.put("channelCodes", TextUtils.join(",", channelCodes));
             }
             
             if (tags != null) {
-                params.add(new BasicNameValuePair("tags", TextUtils.join(",", tags)));
+                params.put("tags", TextUtils.join(",", tags));
             }
             
             if (limit != null) {
-                params.add(new BasicNameValuePair("limit", String.valueOf(limit)));
+                params.put("limit", String.valueOf(limit));
             }
             
             if (offset != null) {
-                params.add(new BasicNameValuePair("offset", String.valueOf(offset)));
+                params.put("offset", String.valueOf(offset));
             }
             
             if (sort != null) {
-                params.add(new BasicNameValuePair("sort", sort.toString()));
+                params.put("sort", sort.toString());
             }
 
             JSONObject object = _get("subscriptions", params);
@@ -184,8 +182,8 @@ public abstract class RequestHelper {
      */
     public Subscription subscribe(String channelCode) throws APIException {
         try {
-            List<NameValuePair> params = new ArrayList<NameValuePair>();
-            params.add(new BasicNameValuePair("channelCode", channelCode));
+            Map<String, String> params = new HashMap<>();
+            params.put("channelCode", channelCode);
 
             JSONObject object = _post("subscriptions", params);
             return new Subscription(object);
@@ -226,14 +224,14 @@ public abstract class RequestHelper {
     /**
      * Perform a GET request with the ApiKey header.
      */
-    protected JSONObject _get(String path, List<NameValuePair> params) throws APIException {
+    protected JSONObject _get(String path, Map<String, String> params) throws APIException {
         return _client._get(path == null ? _basePath : _basePath + "/" + path, params);
     }
 
     /**
      * Perform a POST request with the ApiKey header.
      */
-    protected JSONObject _post(String path, List<NameValuePair> params) throws APIException {
+    protected JSONObject _post(String path, Map<String, String> params) throws APIException {
         return _client._post(path == null ? _basePath : _basePath + "/" + path, params);
     }
 
@@ -245,13 +243,13 @@ public abstract class RequestHelper {
     }    
     
     /**
-     * Convert JSON object to name value pairs.
+     * Convert JSON object to key value pairs.
      * 
-     * @param properties
+     * @param data The json object to convert to parameters.
      * 
      * @return Name value pairs.
      */
-    protected List<NameValuePair> _getParams(JSONObject data) {
+    protected Map<String, String> _getParams(JSONObject data) {
         return _client._getParams(data);
     }    
 }
