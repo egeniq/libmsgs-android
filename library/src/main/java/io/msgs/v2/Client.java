@@ -1,7 +1,5 @@
 package io.msgs.v2;
 
-import android.util.Log;
-
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -9,10 +7,11 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
-import io.msgs.BuildConfig;
+import io.msgs.common.APIClient;
 import io.msgs.common.APIException;
 import io.msgs.common.APIUtils;
 import io.msgs.common.entity.UrlEncodedFormEntity;
+import io.msgs.common.log.Logger;
 import io.msgs.v2.entity.Endpoint;
 import io.msgs.v2.entity.User;
 
@@ -23,21 +22,12 @@ import io.msgs.v2.entity.User;
  * wrapping the calls in an AsyncTask or something similar.
  */
 public class Client {
-    private final static String TAG = Client.class.getSimpleName();
-    private final static boolean DEBUG = BuildConfig.DEBUG;
 
     private final String _baseURL;
     private final String _apiKey;
 
     private APIClient _apiClient;
-
-    private static class APIClient extends io.msgs.common.APIClient {
-        public APIClient(String baseURL) {
-            super(baseURL);
-            _setLoggingEnabled(DEBUG);
-            _setLoggingTag(getClass().getName());
-        }
-    }
+    private Logger _logger = new Logger();
 
 
     /**
@@ -49,6 +39,7 @@ public class Client {
     public Client(String baseURL, String apiKey) {
         _baseURL = baseURL;
         _apiKey = apiKey;
+        _logger.setTag(Client.class.getName());
     }
 
     /**
@@ -64,6 +55,16 @@ public class Client {
         return _apiClient;
     }
 
+    public void setLogLevel(Logger.Level level) {
+        _logger.setLevel(level);
+        _apiClient.setLogLevel(level);
+    }
+
+    public void setLoggingEnabled(boolean enabled) {
+        _logger.setEnabled(enabled);
+        _apiClient.setLoggingEnabled(enabled);
+    }
+
     /**
      * Register endpoint.
      *
@@ -76,10 +77,7 @@ public class Client {
             JSONObject object = _post("endpoints", _getParams(data));
             return new Endpoint(object);
         } catch (Exception e) {
-            if (DEBUG) {
-                Log.e(TAG, "Error registering endpoint", e);
-            }
-
+            _logger.e("Error registering endpoint!", e);
             if (!(e instanceof APIException)) {
                 e = new APIException(e);
             }
@@ -100,9 +98,7 @@ public class Client {
             JSONObject object = _post("users", _getParams(data));
             return new User(object);
         } catch (Exception e) {
-            if (DEBUG) {
-                Log.e(TAG, "Error registering user", e);
-            }
+            _logger.e("Error registering user!", e);
 
             if (!(e instanceof APIException)) {
                 e = new APIException(e);

@@ -8,7 +8,7 @@ import android.util.Log;
  */
 public class Logger {
     private boolean _enabled = true;
-    private Level _level = Level.INFO;
+    private Level _level = Level.VERBOSE;
     private String _tag = Logger.class.getName();
 
     public enum Level {
@@ -29,6 +29,41 @@ public class Logger {
 
     public String getTag() {
         return _tag;
+    }
+
+    public void d(String message) {
+        if (!_enabled || (_level == Level.INFO || _level == Level.WARN || _level == Level.ERROR)) {
+            return;
+        }
+        Log.d(_tag, message);
+    }
+
+    public void i(String message) {
+        if (!_enabled || (_level == Level.WARN || _level == Level.ERROR)) {
+            return;
+        }
+        Log.i(_tag, message);
+    }
+
+    public void w(String message) {
+        if (!_enabled || (_level == Level.ERROR)) {
+            return;
+        }
+        Log.w(_tag, message);
+    }
+
+    public void w(String message, Throwable throwable) {
+        if (!_enabled || (_level == Level.ERROR)) {
+            return;
+        }
+        Log.w(_tag, message, throwable);
+    }
+
+    public void e(String message, Throwable throwable) {
+        if (!_enabled) {
+            return;
+        }
+        Log.e(_tag, message, throwable);
     }
 
 }

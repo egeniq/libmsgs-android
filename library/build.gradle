@@ -11,8 +11,8 @@ android {
     }
     buildTypes {
         release {
+            // No minification done on purpose, should be done in the app which uses this library
             minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
 }

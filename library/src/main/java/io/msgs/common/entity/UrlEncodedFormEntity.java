@@ -1,5 +1,6 @@
 package io.msgs.common.entity;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -17,7 +18,7 @@ public class UrlEncodedFormEntity implements HttpEntity {
     }
 
     @Override
-    public String getBody() throws Exception {
+    public String getBody() throws IOException {
         if (_body == null) {
             return null;
         }
