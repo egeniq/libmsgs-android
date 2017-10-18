@@ -16,7 +16,7 @@ public class User extends AbstractEntity {
     /**
      * Constructor.
      * 
-     * @param properties
+     * @param data Additional JSON data.
      */
     public User(JSONObject data) {
         super(data);

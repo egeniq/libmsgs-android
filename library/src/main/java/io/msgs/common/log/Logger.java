@@ -8,7 +8,7 @@ import android.util.Log;
  */
 public class Logger {
     private boolean _enabled = true;
-    private Level _level = Level.VERBOSE;
+    private Level _level = Level.ERROR;
     private String _tag = Logger.class.getName();
 
     public enum Level {

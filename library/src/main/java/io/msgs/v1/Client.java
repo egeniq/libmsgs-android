@@ -3,7 +3,6 @@ package io.msgs.v1;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.net.Uri;
-import android.util.Log;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -16,23 +15,22 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.TimeZone;
 
-import io.msgs.BuildConfig;
 import io.msgs.common.APIClient;
 import io.msgs.common.APIException;
 import io.msgs.common.APIUtils;
 import io.msgs.common.entity.HttpEntity;
 import io.msgs.common.entity.UrlEncodedFormEntity;
+import io.msgs.common.log.Logger;
 import io.msgs.v1.Subscription.Time;
 
 /**
  * Notification client.
- * 
- * All methods are executed synchronously. You are yourself 
+ * <p>
+ * All methods are executed synchronously. You are yourself
  * responsible for wrapping the calls in an AsyncTask or something similar.
  */
 public class Client {
     private final static String TAG = Client.class.getSimpleName();
-    private final static boolean DEBUG = BuildConfig.DEBUG;
 
     private final static String DEVICE_TOKEN_KEY = "deviceToken";
     private final static String NOTIFICATION_TAG = "NotificationManager";
@@ -44,6 +42,7 @@ public class Client {
     private final static String DEVICE_FAMILY = "gcm";
 
     private final static SimpleDateFormat DATE_FORMAT;
+
     static {
         DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd", Locale.US);
         DATE_FORMAT.setTimeZone(TimeZone.getTimeZone("UTC"));
@@ -54,10 +53,11 @@ public class Client {
     private final String _appId;
 
     private APIClient _apiClient;
+    private final Logger _logger = new Logger();
 
     /**
      * Constructor.
-     * 
+     *
      * @param context
      * @param serviceBaseURL
      */
@@ -65,11 +65,12 @@ public class Client {
         _context = context;
         _serviceBaseURL = serviceBaseURL;
         _appId = appId;
+        _logger.setTag(Client.class.getName());
     }
 
     /**
      * Returns the API client.
-     * 
+     *
      * @return API client.
      */
     protected APIClient _getAPIClient() {
@@ -80,9 +81,20 @@ public class Client {
         return _apiClient;
     }
 
+    public void setLogLevel(Logger.Level level) {
+        _logger.setLevel(level);
+        _apiClient.setLogLevel(level);
+    }
+
+    public void setLoggingEnabled(boolean enabled) {
+        _logger.setEnabled(enabled);
+        _apiClient.setLoggingEnabled(enabled);
+    }
+
+
     /**
      * Is registered?
-     * 
+     *
      * @return Is registered?
      */
     public boolean isRegistered() {
@@ -91,7 +103,7 @@ public class Client {
 
     /**
      * Returns the currently known device token.
-     * 
+     *
      * @return Device token.
      */
     public String getDeviceToken() {
@@ -100,7 +112,7 @@ public class Client {
 
     /**
      * Returns the current notification token.
-     * 
+     *
      * @return Notification token.
      */
     public String getNotificationToken() {
@@ -109,7 +121,7 @@ public class Client {
 
     /**
      * Returns the channel identifier used in the last registration request.
-     * 
+     *
      * @return Channel identifier.
      */
     private String _getLastRegisterChannelId() {
@@ -118,7 +130,7 @@ public class Client {
 
     /**
      * Returns the stamp of the last registration data update.
-     * 
+     *
      * @return Registration data update stamp.
      */
     private Date _getUpdatedAt() {
@@ -132,7 +144,7 @@ public class Client {
 
     /**
      * Register device.
-     * 
+     *
      * @param deviceToken
      */
     public void registerDevice(final String deviceToken) throws APIException {
@@ -141,26 +153,21 @@ public class Client {
 
     /**
      * Register device and subscribe to the given channel.
-     * 
+     *
      * @param deviceToken
      * @param channelId
      */
     public void registerDevice(final String deviceToken, final String channelId) throws APIException {
         try {
-            if (DEBUG) {
-                Log.d(TAG, "Send device registration request for device token: " + deviceToken + " app ID: " + _appId);
-            }
+            _logger.d("Send device registration request for device token: " + deviceToken + " app ID: " + _appId);
 
             // Update needed?
             if (deviceToken.equals(getDeviceToken()) && getNotificationToken() != null) {
                 // @formatter:off
                 if (((_getLastRegisterChannelId() == null && channelId == null) ||
-                     (_getLastRegisterChannelId() != null && _getLastRegisterChannelId().equals(channelId))) &&
-                    (_getUpdatedAt() != null && new Date().getTime() - _getUpdatedAt().getTime() < TOKEN_TIMEOUT_IN_DAYS)) {
-                    if (DEBUG) {
-                        Log.d(TAG, "Registration request cancelled, all data seems up-to-date and recent enough");
-                    }
-                    
+                        (_getLastRegisterChannelId() != null && _getLastRegisterChannelId().equals(channelId))) &&
+                        (_getUpdatedAt() != null && new Date().getTime() - _getUpdatedAt().getTime() < TOKEN_TIMEOUT_IN_DAYS)) {
+                    _logger.d("Registration request cancelled, all data seems up-to-date and recent enough");
                     return;
                 }
                 // @formatter:on
@@ -178,9 +185,7 @@ public class Client {
             String path = "subscribers";
             String notificationToken = getNotificationToken();
             if (notificationToken != null) {
-                if (DEBUG) {
-                    Log.d(TAG, "Using existing notification token: " + notificationToken);
-                }
+                _logger.d("Using existing notification token: " + notificationToken);
 
                 path = "subscribers/;update";
                 params.put("notificationToken", notificationToken);
@@ -189,30 +194,20 @@ public class Client {
             HttpEntity entity = new UrlEncodedFormEntity(params);
             JSONObject result = _getAPIClient().post(path, entity);
 
-            if (DEBUG) {
-                Log.d(TAG, "Registration request sent");
-            }
+            _logger.d("Registration request sent");
 
             if (result != null) {
                 notificationToken = APIUtils.getString(result, "notificationToken", null);
                 _saveRegistrationData(deviceToken, notificationToken, channelId);
 
-                if (DEBUG) {
-                    Log.d(TAG, "Notification token: " + notificationToken);
-                }
+                _logger.d("Notification token: " + notificationToken);
             } else {
-                if (DEBUG) {
-                    Log.e(TAG, "No notification token returned");
-                }
+                _logger.d("No notification token returned");
             }
 
-            if (DEBUG) {
-                Log.d(TAG, "Registration request processed");
-            }
+            _logger.d("Registration request processed");
         } catch (Exception e) {
-            if (DEBUG) {
-                Log.e(TAG, "Error registering device", e);
-            }
+            _logger.e("Error registering device", e);
 
             if (!(e instanceof APIException)) {
                 e = new APIException(e);
@@ -224,9 +219,8 @@ public class Client {
 
     /**
      * Returns a list of subscriptions for this device.
-     * 
+     *
      * @return Subscriptions.
-     * 
      * @throws APIException
      */
     public Subscription[] getSubscriptions() throws APIException {
@@ -285,10 +279,7 @@ public class Client {
 
             return subscriptions.toArray(new Subscription[0]);
         } catch (Exception e) {
-            if (DEBUG) {
-                Log.e(TAG, "Error adding subscription", e);
-            }
-
+            _logger.e("Error adding subscription", e);
             if (!(e instanceof APIException)) {
                 e = new APIException(e);
             }
@@ -299,9 +290,8 @@ public class Client {
 
     /**
      * Subscribe.
-     * 
+     *
      * @param channelId Channel ID.
-     * 
      * @throws APIException
      */
     public void subscribe(String channelId) throws APIException {
@@ -310,9 +300,8 @@ public class Client {
 
     /**
      * Subscribe.
-     * 
+     *
      * @param subscription
-     * 
      * @throws APIException
      */
     public void subscribe(Subscription subscription) throws APIException {
@@ -322,9 +311,7 @@ public class Client {
                 throw new APIException("Device is not registered");
             }
 
-            if (DEBUG) {
-                Log.d(TAG, "Add subscription for channel " + subscription.getChannelId());
-            }
+            _logger.d("Add subscription for channel " + subscription.getChannelId());
 
             Map<String, String> params = new HashMap<>();
             params.put("appId", _appId);
@@ -379,13 +366,9 @@ public class Client {
             String id = APIUtils.getString(result, "id", null);
             subscription.setId(id);
 
-            if (DEBUG) {
-                Log.d(TAG, "Subscription ID: " + id);
-            }
+            _logger.d("Subscription ID: " + id);
         } catch (Exception e) {
-            if (DEBUG) {
-                Log.e(TAG, "Error adding subscription", e);
-            }
+            _logger.e("Error adding subscription", e);
 
             if (!(e instanceof APIException)) {
                 e = new APIException(e);
@@ -397,7 +380,7 @@ public class Client {
 
     /**
      * Unsubscribe from all subscriptions for the given channel.
-     * 
+     *
      * @param channelId Channel ID.
      */
     public void unsubscribe(String channelId) throws APIException {
@@ -415,9 +398,7 @@ public class Client {
             HttpEntity entity = new UrlEncodedFormEntity(params);
             _getAPIClient().post("subscriptions/;delete", entity);
         } catch (Exception e) {
-            if (DEBUG) {
-                Log.e(TAG, "Error adding subscription", e);
-            }
+            _logger.e("Error adding subscription", e);
 
             if (!(e instanceof APIException)) {
                 e = new APIException(e);
@@ -429,7 +410,7 @@ public class Client {
 
     /**
      * Unsubscribe using the given subscription ID.
-     * 
+     *
      * @param subscriptionId Subscription ID.
      */
     public void unsubscribe(int subscriptionId) throws APIException {
@@ -447,9 +428,7 @@ public class Client {
             HttpEntity entity = new UrlEncodedFormEntity(params);
             _getAPIClient().post("subscriptions/;delete", entity);
         } catch (Exception e) {
-            if (DEBUG) {
-                Log.e(TAG, "Error adding subscription", e);
-            }
+            _logger.e("Error adding subscription", e);
 
             if (!(e instanceof APIException)) {
                 e = new APIException(e);
@@ -461,7 +440,7 @@ public class Client {
 
     /**
      * Unsubscribe the given subscription (used the subscription ID).
-     * 
+     *
      * @param subscription Subscription ID.
      */
     public void unsubscribe(Subscription subscription) throws APIException {
