@@ -1,0 +1,52 @@
+apply plugin: 'com.android.library'
+
+android {
+    compileSdkVersion 26
+    buildToolsVersion "26.0.2"
+    defaultConfig {
+        minSdkVersion 9
+        targetSdkVersion 26
+        versionCode 1
+        versionName "1.0"
+    }
+    buildTypes {
+        release {
+            // No minify done on purpose, should be done in the app which uses this library
+            minifyEnabled false
+        }
+    }
+}
+
+dependencies {
+    // No dependencies :)
+}
+
+
+ext {
+    bintrayRepo = 'msgs-client'
+    bintrayName = 'msgs.io'
+
+    publishedGroupId = 'io.msgs'
+    libraryName = 'libmsgs-android'
+    artifact = 'libmsgs-android'
+
+    libraryDescription = 'Egeniq Notification Library for Android'
+
+    siteUrl = 'https://github.com/egeniq/libmsgs-android'
+    gitUrl = 'https://github.com/egeniq/libmsgs-android'
+
+    libraryVersion = "1.0"
+
+    developerId = 'egeniq'
+    developerName = 'Egeniq B.V'
+    developerEmail = 'info@egeniq.com'
+
+    organization = 'egeniq'
+
+    licenseName = 'The Apache Software License, Version 2.0'
+    licenseUrl = 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+    allLicenses = ["Apache-2.0"]
+}
+
+apply from: 'jcenter_bintray.gradle'
+apply from: 'jcenter_install.gradle'
