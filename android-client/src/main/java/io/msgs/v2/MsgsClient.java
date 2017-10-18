@@ -7,9 +7,10 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
-import io.msgs.common.APIClient;
 import io.msgs.common.APIException;
 import io.msgs.common.APIUtils;
+import io.msgs.common.client.Client;
+import io.msgs.common.client.MsgsHttpUrlConnectionClient;
 import io.msgs.common.entity.UrlEncodedFormEntity;
 import io.msgs.common.log.Logger;
 import io.msgs.v2.entity.Endpoint;
@@ -21,48 +22,56 @@ import io.msgs.v2.entity.User;
  * All methods are executed synchronously. You are responsible for <br>
  * wrapping the calls in an AsyncTask or something similar.
  */
-public class Client {
+public class MsgsClient {
 
     private final String _baseURL;
     private final String _apiKey;
+    private final Client _client;
+    private final Logger _logger = new Logger();
 
-    private APIClient _apiClient;
-    private Logger _logger = new Logger();
-
-
-    /**
-     * Constructor.
-     *
-     * @param baseURL The API base URL.
-     * @param apiKey  The API key to register with.
-     */
-    public Client(String baseURL, String apiKey) {
-        _baseURL = baseURL;
-        _apiKey = apiKey;
-        _logger.setTag(Client.class.getName());
+    private MsgsClient(Builder builder) {
+        if (!builder._baseURL.endsWith("/")) {
+            _baseURL = builder._baseURL + "/";
+        } else {
+            _baseURL = builder._baseURL;
+        }
+        _apiKey = builder._apiKey;
+        _logger.setTag(MsgsClient.class.getName());
+        if (builder._client == null) {
+            _client = new MsgsHttpUrlConnectionClient();
+        } else {
+            _client = builder._client;
+        }
     }
 
-    /**
-     * Returns the API client.
-     *
-     * @return API client.
-     */
-    protected APIClient _getAPIClient() {
-        if (_apiClient == null) {
-            _apiClient = new APIClient(_baseURL);
+    public static class Builder {
+        private final String _baseURL;
+        private final String _apiKey;
+        private Client _client;
+
+        public Builder(String baseURL, String apiKey) {
+            _baseURL = baseURL;
+            _apiKey = apiKey;
         }
 
-        return _apiClient;
+        public Builder setClient(Client client) {
+            _client = client;
+            return this;
+        }
+
+        public MsgsClient build() {
+            return new MsgsClient(this);
+        }
     }
 
     public void setLogLevel(Logger.Level level) {
         _logger.setLevel(level);
-        _apiClient.setLogLevel(level);
+        _client.setLogLevel(level);
     }
 
     public void setLoggingEnabled(boolean enabled) {
         _logger.setEnabled(enabled);
-        _apiClient.setLoggingEnabled(enabled);
+        _client.setLoggingEnabled(enabled);
     }
 
     /**
@@ -167,20 +176,20 @@ public class Client {
      * Perform a GET request with the ApiKey header.
      */
     protected JSONObject _get(String path, Map<String, String> params) throws APIException {
-        return _getAPIClient().get(path + (params != null && !params.isEmpty() ? "?" + APIUtils.createQueryString(params) : ""), _getApiHeader());
+        return _client.get(_baseURL + path + (params != null && !params.isEmpty() ? "?" + APIUtils.createQueryString(params) : ""), _getApiHeader());
     }
 
     /**
      * Perform a POST request with the ApiKey header.
      */
     protected JSONObject _post(String path, Map<String, String> params) throws APIException {
-        return _getAPIClient().post(path, params == null ? null : new UrlEncodedFormEntity(params), _getApiHeader());
+        return _client.post(_baseURL + path, params == null ? null : new UrlEncodedFormEntity(params), _getApiHeader());
     }
 
     /**
      * Perform a DELETE request with the ApiKey header.
      */
     protected JSONObject _delete(String path) throws APIException {
-        return _getAPIClient().delete(path, _getApiHeader());
+        return _client.delete(_baseURL + path, _getApiHeader());
     }
 }

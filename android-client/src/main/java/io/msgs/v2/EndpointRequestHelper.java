@@ -19,8 +19,8 @@ public class EndpointRequestHelper extends RequestHelper {
     /**
      * Constructor
      */
-    public EndpointRequestHelper(Client client, String endpointToken) {
-        super(client, "endpoints/" + endpointToken);
+    public EndpointRequestHelper(MsgsClient msgsClient, String endpointToken) {
+        super(msgsClient, "endpoints/" + endpointToken);
     }
 
     /**

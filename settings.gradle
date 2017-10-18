@@ -1,1 +1,1 @@
-include ':library'
+include ':android-client', ':android-client-okhttp'

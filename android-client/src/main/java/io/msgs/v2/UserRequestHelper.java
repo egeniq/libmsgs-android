@@ -22,8 +22,8 @@ public class UserRequestHelper extends RequestHelper {
     /**
      * Constructor
      */
-    public UserRequestHelper(Client client, String userToken) {
-        super(client, "users/" + userToken);
+    public UserRequestHelper(MsgsClient msgsClient, String userToken) {
+        super(msgsClient, "users/" + userToken);
     }
 
     /**
