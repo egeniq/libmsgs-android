@@ -48,5 +48,5 @@ ext {
     allLicenses = ["Apache-2.0"]
 }
 
-apply from: 'jcenter_bintray.gradle'
-apply from: 'jcenter_install.gradle'
+apply from: '../jcenter_bintray.gradle'
+apply from: '../jcenter_install.gradle'

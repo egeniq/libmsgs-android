@@ -20,6 +20,35 @@ android {
 
 }
 
+ext {
+    bintrayRepo = 'msgs-client'
+    bintrayName = 'msgs.io'
+
+    publishedGroupId = 'io.msgs'
+    libraryName = 'libmsgs-android'
+    artifact = 'libmsgs-android'
+
+    libraryDescription = 'Egeniq Notification Library for Android'
+
+    siteUrl = 'https://github.com/egeniq/libmsgs-android'
+    gitUrl = 'https://github.com/egeniq/libmsgs-android'
+
+    libraryVersion = "1.1"
+
+    developerId = 'egeniq'
+    developerName = 'Egeniq B.V'
+    developerEmail = 'info@egeniq.com'
+
+    organization = 'egeniq'
+
+    licenseName = 'The Apache Software License, Version 2.0'
+    licenseUrl = 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+    allLicenses = ["Apache-2.0"]
+}
+
+apply from: '../jcenter_bintray.gradle'
+apply from: '../jcenter_install.gradle'
+
 dependencies {
     api project(':android-client')
     api 'com.squareup.okhttp3:okhttp:3.9.0'
