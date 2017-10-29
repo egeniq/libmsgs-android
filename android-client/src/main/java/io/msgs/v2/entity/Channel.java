@@ -1,12 +1,29 @@
 package io.msgs.v2.entity;
 
+import android.util.Log;
+
 import org.json.JSONObject;
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
+import java.util.TimeZone;
 
 /**
  * Channel entity.
- * 
  */
 public class Channel extends AbstractEntity {
+
+    private final static SimpleDateFormat DATE_FORMAT;
+    private static final String TAG = Channel.class.getName();
+
+    static {
+        // Interpret dates delivered by the API as en_US in the UTC time zone.
+        DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'", Locale.US);
+        DATE_FORMAT.setTimeZone(TimeZone.getTimeZone("UTC"));
+    }
+
     /**
      * Constructor.
      */
@@ -54,8 +71,17 @@ public class Channel extends AbstractEntity {
     /**
      * Get date when channel was created.
      */
-    public String getCreatedAt() {
-        return _getString("createdAt");
+    public Date getCreatedAt() {
+        String createdAtString = _getString("createdAt");
+        if (createdAtString == null) {
+            return null;
+        }
+        try {
+            return DATE_FORMAT.parse(createdAtString);
+        } catch (ParseException e) {
+            Log.e(TAG, "Can't parse 'createdAt' date: " + createdAtString);
+        }
+        return null;
     }
 
     /**
@@ -69,8 +95,17 @@ public class Channel extends AbstractEntity {
     /**
      * Get date when channel was updated last time.
      */
-    public String getUpdatedAt() {
-        return _getString("updatedAt");
+    public Date getUpdatedAt() {
+        String createdAtString = _getString("updatedAt");
+        if (createdAtString == null) {
+            return null;
+        }
+        try {
+            return DATE_FORMAT.parse(createdAtString);
+        } catch (ParseException e) {
+            Log.e(TAG, "Can't parse 'updatedAt' date: " + createdAtString);
+        }
+        return null;
     }
 
     /**
