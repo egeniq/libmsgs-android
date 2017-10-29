@@ -52,6 +52,36 @@ public class Channel extends AbstractEntity {
     }
 
     /**
+     * Get date when channel was created.
+     */
+    public String getCreatedAt() {
+        return _getString("createdAt");
+    }
+
+    /**
+     * Set date when channel was created.
+     */
+    public Channel setCreatedAt(String createdAt) {
+        _putString("createdAt", createdAt);
+        return this;
+    }
+
+    /**
+     * Get date when channel was updated last time.
+     */
+    public String getUpdatedAt() {
+        return _getString("updatedAt");
+    }
+
+    /**
+     * Set date when channel was updated last time.
+     */
+    public Channel setUpdatedAt(String updatedAt) {
+        _putString("updatedAt", updatedAt);
+        return this;
+    }
+
+    /**
      * Get tags.
      */
     public String[] getTags() {
