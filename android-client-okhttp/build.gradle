@@ -9,7 +9,7 @@ android {
         minSdkVersion 9
         targetSdkVersion 26
         versionCode 1
-        versionName "1.1"
+        versionName "1.1.1"
     }
 
     buildTypes {
@@ -33,7 +33,7 @@ ext {
     siteUrl = 'https://github.com/egeniq/libmsgs-android'
     gitUrl = 'https://github.com/egeniq/libmsgs-android'
 
-    libraryVersion = "1.1"
+    libraryVersion = "1.1.1"
 
     developerId = 'egeniq'
     developerName = 'Egeniq B.V'
