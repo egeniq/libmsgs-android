@@ -3,24 +3,22 @@ apply plugin: 'com.android.library'
 android {
     compileSdkVersion 26
     buildToolsVersion "26.0.2"
+
+
     defaultConfig {
         minSdkVersion 9
         targetSdkVersion 26
         versionCode 1
-        versionName "1.0"
+        versionName "1.1"
     }
+
     buildTypes {
         release {
-            // No minify done on purpose, should be done in the app which uses this library
             minifyEnabled false
         }
     }
-}
 
-dependencies {
-    // No dependencies :)
 }
-
 
 ext {
     bintrayRepo = 'msgs-client'
@@ -35,7 +33,7 @@ ext {
     siteUrl = 'https://github.com/egeniq/libmsgs-android'
     gitUrl = 'https://github.com/egeniq/libmsgs-android'
 
-    libraryVersion = "1.0"
+    libraryVersion = "1.1"
 
     developerId = 'egeniq'
     developerName = 'Egeniq B.V'
@@ -48,5 +46,10 @@ ext {
     allLicenses = ["Apache-2.0"]
 }
 
-apply from: 'jcenter_bintray.gradle'
-apply from: 'jcenter_install.gradle'
+apply from: '../jcenter_bintray.gradle'
+apply from: '../jcenter_install.gradle'
+
+dependencies {
+    api project(':android-client')
+    api 'com.squareup.okhttp3:okhttp:3.9.0'
+}

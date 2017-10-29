@@ -15,9 +15,10 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.TimeZone;
 
-import io.msgs.common.APIClient;
 import io.msgs.common.APIException;
 import io.msgs.common.APIUtils;
+import io.msgs.common.client.Client;
+import io.msgs.common.client.MsgsHttpUrlConnectionClient;
 import io.msgs.common.entity.HttpEntity;
 import io.msgs.common.entity.UrlEncodedFormEntity;
 import io.msgs.common.log.Logger;
@@ -29,8 +30,8 @@ import io.msgs.v1.Subscription.Time;
  * All methods are executed synchronously. You are yourself
  * responsible for wrapping the calls in an AsyncTask or something similar.
  */
-public class Client {
-    private final static String TAG = Client.class.getSimpleName();
+public class MsgsClient {
+    private final static String TAG = MsgsClient.class.getSimpleName();
 
     private final static String DEVICE_TOKEN_KEY = "deviceToken";
     private final static String NOTIFICATION_TAG = "NotificationManager";
@@ -49,46 +50,59 @@ public class Client {
     }
 
     private final Context _context;
-    private final String _serviceBaseURL;
+    private final String _baseURL;
     private final String _appId;
 
-    private APIClient _apiClient;
+    private Client _client;
     private final Logger _logger = new Logger();
 
-    /**
-     * Constructor.
-     *
-     * @param context
-     * @param serviceBaseURL
-     */
-    public Client(Context context, String serviceBaseURL, String appId) {
-        _context = context;
-        _serviceBaseURL = serviceBaseURL;
-        _appId = appId;
-        _logger.setTag(Client.class.getName());
+    private MsgsClient(Builder builder) {
+        _context = builder._context;
+        if (!builder._baseURL.endsWith("/")) {
+            _baseURL = builder._baseURL + "/";
+        } else {
+            _baseURL = builder._baseURL;
+        }
+        _appId = builder._appId;
+
+        if (builder._client == null) {
+            _client = new MsgsHttpUrlConnectionClient();
+        } else {
+            _client = builder._client;
+        }
+        _logger.setTag(MsgsClient.class.getName());
     }
 
-    /**
-     * Returns the API client.
-     *
-     * @return API client.
-     */
-    protected APIClient _getAPIClient() {
-        if (_apiClient == null) {
-            _apiClient = new APIClient(_serviceBaseURL);
+    public static class Builder {
+        private final Context _context;
+        private final String _baseURL;
+        private final String _appId;
+        private Client _client;
+
+        public Builder(Context context, String baseURL, String appId) {
+            _context = context;
+            _baseURL = baseURL;
+            _appId = appId;
         }
 
-        return _apiClient;
+        public Builder setClient(Client client) {
+            _client = client;
+            return this;
+        }
+
+        public MsgsClient build() {
+            return new MsgsClient(this);
+        }
     }
 
     public void setLogLevel(Logger.Level level) {
         _logger.setLevel(level);
-        _apiClient.setLogLevel(level);
+        _client.setLogLevel(level);
     }
 
     public void setLoggingEnabled(boolean enabled) {
         _logger.setEnabled(enabled);
-        _apiClient.setLoggingEnabled(enabled);
+        _client.setLoggingEnabled(enabled);
     }
 
 
@@ -192,7 +206,7 @@ public class Client {
             }
 
             HttpEntity entity = new UrlEncodedFormEntity(params);
-            JSONObject result = _getAPIClient().post(path, entity);
+            JSONObject result = _client.post(_baseURL + path, entity, null);
 
             _logger.d("Registration request sent");
 
@@ -230,7 +244,7 @@ public class Client {
                 throw new APIException("Device is not registered");
             }
 
-            JSONArray rawSubscriptions = _getAPIClient().getArray("subscriptions/" + _appId + "/" + notificationToken);
+            JSONArray rawSubscriptions = _client.getArray(_baseURL + "subscriptions/" + _appId + "/" + notificationToken, null);
 
             ArrayList<Subscription> subscriptions = new ArrayList<Subscription>();
             for (int i = 0; i < rawSubscriptions.length(); i++) {
@@ -362,7 +376,7 @@ public class Client {
             }
 
             HttpEntity entity = new UrlEncodedFormEntity(params);
-            JSONObject result = _getAPIClient().post("subscriptions", entity);
+            JSONObject result = _client.post(_baseURL + "subscriptions", entity, null);
             String id = APIUtils.getString(result, "id", null);
             subscription.setId(id);
 
@@ -396,7 +410,7 @@ public class Client {
             params.put("channelId", channelId);
 
             HttpEntity entity = new UrlEncodedFormEntity(params);
-            _getAPIClient().post("subscriptions/;delete", entity);
+            _client.post(_baseURL + "subscriptions/;delete", entity, null);
         } catch (Exception e) {
             _logger.e("Error adding subscription", e);
 
@@ -426,7 +440,7 @@ public class Client {
             params.put("subscriptionId", String.valueOf(subscriptionId));
 
             HttpEntity entity = new UrlEncodedFormEntity(params);
-            _getAPIClient().post("subscriptions/;delete", entity);
+            _client.post("subscriptions/;delete", entity, null);
         } catch (Exception e) {
             _logger.e("Error adding subscription", e);
 

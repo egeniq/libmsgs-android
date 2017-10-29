@@ -1,4 +1,4 @@
-package io.msgs.common;
+package io.msgs.common.client;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -17,6 +17,7 @@ import java.net.URL;
 import java.nio.charset.Charset;
 import java.util.Map;
 
+import io.msgs.common.APIException;
 import io.msgs.common.entity.HttpEntity;
 import io.msgs.common.log.Logger;
 
@@ -25,35 +26,26 @@ import io.msgs.common.log.Logger;
  * <p>
  * Created by Daniel Zolnai on 2017-10-17.
  */
-public class APIClient {
+public class MsgsHttpUrlConnectionClient implements Client {
 
     private static final int CONNECT_TIMEOUT_MS = 15000;
     private static final int READ_TIMEOUT_MS = 30000;
 
-    private final String _baseURL;
     private final Logger _logger = new Logger();
 
-    public APIClient(String baseURL) {
-        if (!baseURL.endsWith("/")) {
-            _baseURL = baseURL + "/";
-        } else {
-            _baseURL = baseURL;
-        }
-        _logger.setTag(APIClient.class.getName());
+    public MsgsHttpUrlConnectionClient() {
+        _logger.setTag(MsgsHttpUrlConnectionClient.class.getName());
     }
 
-    public JSONObject post(String path, HttpEntity entity) throws APIException {
-        return post(path, entity, null);
-    }
-
-    public JSONObject post(String path, HttpEntity entity, Map<String, String> headers) throws APIException {
-        HttpURLConnection connection = _createConnection(path, headers);
+    @Override
+    public JSONObject post(String url, HttpEntity entity, Map<String, String> headers) throws APIException {
+        HttpURLConnection connection = _createConnection(url, headers);
         try {
             connection.setRequestMethod("POST");
         } catch (ProtocolException ex) {
             throw new APIException(ex);
         }
-        _logger.d("--> POST " + connection.getURL().toString());
+        _logger.d("--> POST " + url);
         connection.setDoInput(true);
         connection.setDoOutput(true);
         OutputStream outputStream = null;
@@ -76,7 +68,7 @@ public class APIClient {
         }
         try {
             connection.connect();
-            _logger.d("<-- POST " + connection.getURL().toString() + " [" + connection.getResponseCode() + "]");
+            _logger.d("<-- POST " + url + " [" + connection.getResponseCode() + "]");
             String body = _readString(connection.getInputStream());
             _logger.d(body);
             return new JSONObject(body);
@@ -85,19 +77,20 @@ public class APIClient {
         }
     }
 
-    public JSONObject get(String path, Map<String, String> headers) throws APIException {
-        HttpURLConnection connection = _createConnection(path, headers);
+    @Override
+    public JSONObject get(String url, Map<String, String> headers) throws APIException {
+        HttpURLConnection connection = _createConnection(url, headers);
         try {
             connection.setRequestMethod("GET");
         } catch (ProtocolException ex) {
             throw new APIException(ex);
         }
-        _logger.d("--> GET " + connection.getURL().toString());
+        _logger.d("--> GET " + url);
         connection.setDoInput(true);
         connection.setDoOutput(false);
         try {
             connection.connect();
-            _logger.d("<-- GET " + connection.getURL().toString() + " [" + connection.getResponseCode() + "]");
+            _logger.d("<-- GET " + url + " [" + connection.getResponseCode() + "]");
             String body = _readString(connection.getInputStream());
             _logger.d(body);
             return new JSONObject(body);
@@ -106,19 +99,20 @@ public class APIClient {
         }
     }
 
-    public JSONArray getArray(String path) throws APIException {
-        HttpURLConnection connection = _createConnection(path, null);
+    @Override
+    public JSONArray getArray(String url, Map<String, String> headers) throws APIException {
+        HttpURLConnection connection = _createConnection(url, headers);
         try {
             connection.setRequestMethod("GET");
         } catch (ProtocolException ex) {
             throw new APIException(ex);
         }
-        _logger.d("--> GET " + connection.getURL().toString());
+        _logger.d("--> GET " + url);
         connection.setDoInput(true);
         connection.setDoOutput(false);
         try {
             connection.connect();
-            _logger.d("<-- GET " + connection.getURL().toString() + " [" + connection.getResponseCode() + "]");
+            _logger.d("<-- GET " + url + " [" + connection.getResponseCode() + "]");
             String body = _readString(connection.getInputStream());
             _logger.d(body);
             return new JSONArray(body);
@@ -127,19 +121,20 @@ public class APIClient {
         }
     }
 
-    public JSONObject delete(String path, Map<String, String> headers) throws APIException {
-        HttpURLConnection connection = _createConnection(path, headers);
+    @Override
+    public JSONObject delete(String url, Map<String, String> headers) throws APIException {
+        HttpURLConnection connection = _createConnection(url, headers);
         try {
             connection.setRequestMethod("DELETE");
         } catch (ProtocolException ex) {
             throw new APIException(ex);
         }
-        _logger.d("--> DELETE " + connection.getURL().toString());
+        _logger.d("--> DELETE " + url);
         connection.setDoInput(true);
         connection.setDoOutput(false);
         try {
             connection.connect();
-            _logger.d("<-- GET " + connection.getURL().toString() + " [" + connection.getResponseCode() + "]");
+            _logger.d("<-- DELETE " + url + " [" + connection.getResponseCode() + "]");
             String body = _readString(connection.getInputStream());
             _logger.d(body);
             return new JSONObject(body);
@@ -148,9 +143,9 @@ public class APIClient {
         }
     }
 
-    private HttpURLConnection _createConnection(String path, Map<String, String> headers) throws APIException {
+    private HttpURLConnection _createConnection(String urlString, Map<String, String> headers) throws APIException {
         try {
-            URL url = new URL(_baseURL + path);
+            URL url = new URL(urlString);
             HttpURLConnection urlConnection = (HttpURLConnection)url.openConnection();
             urlConnection.setConnectTimeout(CONNECT_TIMEOUT_MS);
             urlConnection.setReadTimeout(READ_TIMEOUT_MS);
@@ -182,10 +177,12 @@ public class APIClient {
     }
 
 
+    @Override
     public void setLoggingEnabled(boolean enabled) {
         _logger.setEnabled(enabled);
     }
 
+    @Override
     public void setLogLevel(Logger.Level level) {
         _logger.setLevel(level);
     }

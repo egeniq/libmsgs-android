@@ -22,7 +22,7 @@ public abstract class RequestHelper {
     private final static String TAG = RequestHelper.class.getSimpleName();
     private final static boolean DEBUG = BuildConfig.DEBUG;
 
-    private Client _client;
+    private MsgsClient _msgsClient;
     private String _basePath;
 
     public enum Sort {
@@ -51,11 +51,11 @@ public abstract class RequestHelper {
     /**
      * Constructor.
      * 
-     * @param client
+     * @param msgsClient
      * @param basePath
      */
-    public RequestHelper(Client client, String basePath) {
-        _client = client;
+    public RequestHelper(MsgsClient msgsClient, String basePath) {
+        _msgsClient = msgsClient;
         _basePath = basePath;
     }
     
@@ -66,7 +66,7 @@ public abstract class RequestHelper {
      * @param basePath
      */
     public RequestHelper(RequestHelper parent, String basePath) {
-        _client = parent._client;
+        _msgsClient = parent._msgsClient;
         _basePath = parent._basePath + "/" + basePath;
     }    
 
@@ -225,21 +225,21 @@ public abstract class RequestHelper {
      * Perform a GET request with the ApiKey header.
      */
     protected JSONObject _get(String path, Map<String, String> params) throws APIException {
-        return _client._get(path == null ? _basePath : _basePath + "/" + path, params);
+        return _msgsClient._get(path == null ? _basePath : _basePath + "/" + path, params);
     }
 
     /**
      * Perform a POST request with the ApiKey header.
      */
     protected JSONObject _post(String path, Map<String, String> params) throws APIException {
-        return _client._post(path == null ? _basePath : _basePath + "/" + path, params);
+        return _msgsClient._post(path == null ? _basePath : _basePath + "/" + path, params);
     }
 
     /**
      * Perform a DELETE request with the ApiKey header.
      */
     protected JSONObject _delete(String path) throws APIException {
-        return _client._delete(path == null ? _basePath : _basePath + "/" + path);
+        return _msgsClient._delete(path == null ? _basePath : _basePath + "/" + path);
     }    
     
     /**
@@ -250,6 +250,6 @@ public abstract class RequestHelper {
      * @return Name value pairs.
      */
     protected Map<String, String> _getParams(JSONObject data) {
-        return _client._getParams(data);
+        return _msgsClient._getParams(data);
     }    
 }
