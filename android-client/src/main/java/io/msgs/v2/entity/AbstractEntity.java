@@ -6,7 +6,10 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.Iterator;
+
+import io.msgs.common.APIUtils;
 
 /**
  * JSON entity base class.
@@ -293,6 +296,19 @@ public class AbstractEntity {
             } else {
                 _data.put(key, new JSONArray(Arrays.asList(value)));
             }
+        } catch (JSONException e) {
+        }
+    }
+
+    /**
+     * Store date value for the given key.
+     *
+     * @param key Key.
+     * @param value Value.
+     */
+    protected void _putDate(String key, Date value) {
+        try {
+            _data.put(key, APIUtils.formatDate(value));
         } catch (JSONException e) {
         }
     }
