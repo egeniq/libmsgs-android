@@ -1,5 +1,7 @@
 package io.msgs.common.client;
 
+import android.text.TextUtils;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -137,7 +139,7 @@ public class MsgsHttpUrlConnectionClient implements Client {
             _logger.d("<-- DELETE " + url + " [" + connection.getResponseCode() + "]");
             String body = _readString(connection.getInputStream());
             _logger.d(body);
-            return new JSONObject(body);
+            return TextUtils.isEmpty(body) ? new JSONObject() : new JSONObject(body);
         } catch (IOException | JSONException ex) {
             throw new APIException(ex);
         }
