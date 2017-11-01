@@ -88,6 +88,23 @@ public class Channel extends AbstractEntity {
     }
 
     /**
+     * Get date when last notification was sent on this channel.
+     */
+    public Date getLastNotificationAt() {
+        return APIUtils.getDate(_data, "lastNotificationAt", null);
+    }
+
+    /**
+     * Set date when last notification was sent on this channel.
+     *
+     * @param lastNotificationAt When last notification was sent on this channel.
+     */
+    public Channel setLastNotificationAt(Date lastNotificationAt) {
+        _putDate("lastNotificationAt", lastNotificationAt);
+        return this;
+    }
+
+    /**
      * Get tags.
      */
     public String[] getTags() {
