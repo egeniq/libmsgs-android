@@ -1,6 +1,10 @@
 Changelog
 =========
 
+## 1.1.3
+
+Added the `lastNotificationAt` property to the `Channel` class in the `v2` package.
+
 ## 1.1.2
 
 The DELETE call returned an empty string body on success, which would throw an exception when being parsed as JSON. This is now converted to an empty JSON object result.
