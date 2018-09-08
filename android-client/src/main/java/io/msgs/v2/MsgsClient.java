@@ -26,7 +26,7 @@ public class MsgsClient {
 
     private final String _baseURL;
     private final String _apiKey;
-    private String _customUserAgent;
+    private final String _customUserAgent;
     private final Client _client;
     private final Logger _logger = new Logger();
 
