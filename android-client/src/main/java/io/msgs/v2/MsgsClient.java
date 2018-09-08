@@ -150,7 +150,7 @@ public class MsgsClient {
         Map<String, String> headers = new HashMap<>();
         headers.put("X-MsgsIo-APIKey", _apiKey);
         if (_customUserAgent != null) {
-            headers.put("User-Agent", _apiKey);
+            headers.put("User-Agent", _customUserAgent);
         }
         return headers;
     }
