@@ -33,7 +33,7 @@ ext {
     siteUrl = 'https://github.com/egeniq/libmsgs-android'
     gitUrl = 'https://github.com/egeniq/libmsgs-android'
 
-    libraryVersion = "1.1.3"
+    libraryVersion = "1.1.4"
 
     developerId = 'egeniq'
     developerName = 'Egeniq B.V'

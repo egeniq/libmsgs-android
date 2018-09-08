@@ -26,6 +26,7 @@ public class MsgsClient {
 
     private final String _baseURL;
     private final String _apiKey;
+    private String _customUserAgent;
     private final Client _client;
     private final Logger _logger = new Logger();
 
@@ -36,6 +37,7 @@ public class MsgsClient {
             _baseURL = builder._baseURL;
         }
         _apiKey = builder._apiKey;
+        _customUserAgent = builder._customUserAgent;
         _logger.setTag(MsgsClient.class.getName());
         if (builder._client == null) {
             _client = new MsgsHttpUrlConnectionClient();
@@ -47,6 +49,7 @@ public class MsgsClient {
     public static class Builder {
         private final String _baseURL;
         private final String _apiKey;
+        private String _customUserAgent;
         private Client _client;
 
         public Builder(String baseURL, String apiKey) {
@@ -56,6 +59,11 @@ public class MsgsClient {
 
         public Builder setClient(Client client) {
             _client = client;
+            return this;
+        }
+
+        public Builder setUserAgent(String customUserAgent) {
+            _customUserAgent = customUserAgent;
             return this;
         }
 
@@ -141,6 +149,9 @@ public class MsgsClient {
     private Map<String, String> _getApiHeader() {
         Map<String, String> headers = new HashMap<>();
         headers.put("X-MsgsIo-APIKey", _apiKey);
+        if (_customUserAgent != null) {
+            headers.put("User-Agent", _apiKey);
+        }
         return headers;
     }
 
