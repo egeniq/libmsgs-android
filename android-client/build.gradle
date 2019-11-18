@@ -26,8 +26,8 @@ ext {
     bintrayName = 'msgs.io'
 
     publishedGroupId = 'io.msgs'
-    libraryName = 'libmsgs-android'
-    artifact = 'libmsgs-android'
+    libraryName = 'android-client'
+    artifact = 'android-client'
 
     libraryDescription = 'Egeniq Notification Library for Android'
 

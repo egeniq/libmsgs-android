@@ -22,8 +22,8 @@ ext {
     bintrayName = 'msgs.io'
 
     publishedGroupId = 'io.msgs'
-    libraryName = 'libmsgs-android'
-    artifact = 'libmsgs-android'
+    libraryName = 'android-client-okhttp'
+    artifact = 'android-client-okhttp'
 
     libraryDescription = 'Egeniq Notification Library for Android'
 
@@ -48,5 +48,5 @@ apply from: '../jcenter_install.gradle'
 
 dependencies {
     api project(':android-client')
-    api 'com.squareup.okhttp3:okhttp:3.10.0'
+    api 'com.squareup.okhttp3:okhttp:3.14.3' // Latest version with minsdk < 21
 }
