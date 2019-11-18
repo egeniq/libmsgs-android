@@ -1,15 +1,12 @@
 apply plugin: 'com.android.library'
 
 android {
-    compileSdkVersion 26
-    buildToolsVersion "26.0.2"
-
-
+    compileSdkVersion 29
     defaultConfig {
-        minSdkVersion 9
-        targetSdkVersion 26
+        minSdkVersion 14
+        targetSdkVersion 29
         versionCode 1
-        versionName "1.1.4"
+        versionName "1.1.5"
     }
 
     buildTypes {
@@ -25,15 +22,15 @@ ext {
     bintrayName = 'msgs.io'
 
     publishedGroupId = 'io.msgs'
-    libraryName = 'libmsgs-android'
-    artifact = 'libmsgs-android'
+    libraryName = 'android-client-okhttp'
+    artifact = 'android-client-okhttp'
 
     libraryDescription = 'Egeniq Notification Library for Android'
 
     siteUrl = 'https://github.com/egeniq/libmsgs-android'
     gitUrl = 'https://github.com/egeniq/libmsgs-android'
 
-    libraryVersion = "1.1.4"
+    libraryVersion = "1.1.5"
 
     developerId = 'egeniq'
     developerName = 'Egeniq B.V'
@@ -51,5 +48,5 @@ apply from: '../jcenter_install.gradle'
 
 dependencies {
     api project(':android-client')
-    api 'com.squareup.okhttp3:okhttp:3.10.0'
+    api 'com.squareup.okhttp3:okhttp:3.14.3' // Latest version with minsdk < 21
 }
