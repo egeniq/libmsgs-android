@@ -1,12 +1,13 @@
 apply plugin: 'com.android.library'
 
 android {
-    compileSdkVersion 29
+    compileSdkVersion 35
+    namespace "io.msgs.okhttp"
     defaultConfig {
         minSdkVersion 14
-        targetSdkVersion 29
+        targetSdkVersion 35
         versionCode 1
-        versionName "1.1.5"
+        versionName "1.2.0"
     }
 
     buildTypes {
@@ -30,7 +31,7 @@ ext {
     siteUrl = 'https://github.com/egeniq/libmsgs-android'
     gitUrl = 'https://github.com/egeniq/libmsgs-android'
 
-    libraryVersion = "1.1.5"
+    libraryVersion = "1.2.0"
 
     developerId = 'egeniq'
     developerName = 'Egeniq B.V'
@@ -42,9 +43,6 @@ ext {
     licenseUrl = 'http://www.apache.org/licenses/LICENSE-2.0.txt'
     allLicenses = ["Apache-2.0"]
 }
-
-apply from: '../jcenter_bintray.gradle'
-apply from: '../jcenter_install.gradle'
 
 dependencies {
     api project(':android-client')

@@ -1,6 +1,11 @@
 Changelog
 =========
 
+## 1.2.0
+
+Removed JCenter integration because of sunset.
+Updated the documentation on how to build an `aar` locally.
+
 ## 1.1.3
 
 Added the `lastNotificationAt` property to the `Channel` class in the `v2` package.
